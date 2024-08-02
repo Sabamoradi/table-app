@@ -41,5 +41,3 @@ export let tableData = [
     cardNumber: "585983******8890",
   },
 ];
-
-// import { tableData } from '../../configs/data';
