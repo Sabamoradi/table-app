@@ -13,6 +13,14 @@ import CustomModal from "../../components/Modal";
 import FirstTab from "../../components/FirstTab";
 import SecondTab from "../../components/SecondTab";
 import moment from "moment-jalaali";
+import { useAppDispatch, useAppSelector } from "../../hooks/useDispatch";
+import {
+  selectNotificationTitle,
+  selectShowNotification,
+  set_showNotification,
+  set_notificationTitle
+} from "../../store/general/slice";
+import Toast from "../../components/Toast";
 
 type DataIndex = keyof TableDataType;
 
@@ -21,25 +29,30 @@ const Home: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [finishForm, setFinishForm] = useState(false);
   const [form] = Form.useForm();
+  const dispatch = useAppDispatch();
+  const showNotification = useAppSelector(selectShowNotification);
+  const showNotificationTitle = useAppSelector(selectNotificationTitle);
 
   const handleFinish = (values?: any) => {
     console.log("Form values:", values);
-    setIsModalOpen(false)
+    setIsModalOpen(false);
+    dispatch(set_showNotification(true));
+    dispatch(set_notificationTitle(localTexts.sucessFillForm));
   };
 
-  const changeDate = (value:string) =>{
+  const changeDate = (value: string) => {
     const monthNum = moment(value, "jYYYY/jMM/jDD-HH:mm:ss").format("jDD");
     const year = moment(value, "jYYYY/jMM/jDD-HH:mm:ss").format("jYYYY");
     const time = moment(value, "jYYYY/jMM/jDD-HH:mm:ss").format("HH:mm");
     const monthName = new Intl.DateTimeFormat("fa-IR", {
-      month: "short"
-    }).format(new Date(moment(value, "jYYYY/jMM/jDD-HH:mm:ss").format("YYYY/MM/DD")));
-    
-    return `${monthNum} ${monthName} ${year} ${time} `
-    
-  }
+      month: "short",
+    }).format(
+      new Date(moment(value, "jYYYY/jMM/jDD-HH:mm:ss").format("YYYY/MM/DD"))
+    );
+
+    return `${monthNum} ${monthName} ${year} ${time} `;
+  };
 
   const items = [
     {
@@ -111,8 +124,6 @@ const Home: React.FC = () => {
             icon={<SearchOutlined />}
             size="small"
           />
-            
-          
         </Space>
       </div>
     ),
@@ -170,31 +181,40 @@ const Home: React.FC = () => {
   ];
 
   return (
-    <div className={styles.table_wrapper}>
-      <Table columns={columns} dataSource={tableData} />
-      <CustomModal
-        isModalOpen={isModalOpen}
-        closeModal={() => setIsModalOpen(false)}
-      >
-        <div className={styles.top_section}>
-          <h4>{localTexts.currentAmount}</h4>
-          <p className={styles.amount}>
-            {moneySeparator("15000")} <span>ریال</span>
-          </p>
-        </div>
+    <>
+      <div className={styles.table_wrapper}>
+        <Table columns={columns} dataSource={tableData} />
+        <CustomModal
+          isModalOpen={isModalOpen}
+          closeModal={() => setIsModalOpen(false)}
+        >
+          <div className={styles.top_section}>
+            <h4>{localTexts.currentAmount}</h4>
+            <p className={styles.amount}>
+              {moneySeparator("15000")} <span>ریال</span>
+            </p>
+          </div>
 
-        <Tabs
-          defaultActiveKey="1"
-          items={items.map((el, i) => {
-            return {
-              label: <span>{el.text}</span>,
-              key: el.id,
-              children: el.content,
-            };
-          })}
+          <Tabs
+            defaultActiveKey="1"
+            items={items.map((el, i) => {
+              return {
+                label: <span>{el.text}</span>,
+                key: el.id,
+                children: el.content,
+              };
+            })}
+          />
+        </CustomModal>
+      </div>
+      {showNotification && (
+        <Toast
+          toastTitle={showNotificationTitle}
+          dismissTime={4000}
+          toastType={"success"}
         />
-      </CustomModal>
-    </div>
+      )}
+    </>
   );
 };
 

@@ -1,0 +1,38 @@
+@use "src/styles/main.scss" as *;
+
+.container_toast {
+  font-size: toRem(14);
+  border-radius: toRem(10);
+  position: fixed;
+  z-index: 10;
+  width: toRem(250);
+  bottom: toRem(40);
+  right: toRem(12);
+  height: toRem(50);
+  color: $white;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: toast-in-right 0.7s forwards;
+}
+.success_bg {
+  background-color: $green-1;
+}
+
+@keyframes toast-in-right {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}

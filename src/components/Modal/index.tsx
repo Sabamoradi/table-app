@@ -1,7 +1,5 @@
-import { Modal, Button } from "antd";
+import { Modal } from "antd";
 import { localTexts } from "../../locals/text";
-import styles from "./style.module.scss";
-import { moneySeparator } from "../../utils/addThousandSeparator";
 import { ReactNode } from "react";
 
 interface Props {

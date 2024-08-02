@@ -2,5 +2,7 @@
 
 export interface State {
     status: 'idle' | 'loading' | 'failed';
-    closeModal:boolean
+    closeModal:boolean;
+    showNotification:boolean;
+    notificationTitle:string
 };

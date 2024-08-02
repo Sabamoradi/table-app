@@ -12,6 +12,7 @@ export const localTexts = {
     description:'توضیحات',
     destinationAmount:'مبلغ تسویه',
     fillDestinationofSettlement:'لطفا مقصد تسویه را وارد کنید',
-    fillAmountOfSettleMent:'لطفا مبلغ تسویه را وارد کنید'
+    fillAmountOfSettleMent:'لطفا مبلغ تسویه را وارد کنید',
+    sucessFillForm:'درخواست با موفقیت ثبت شد'
   };
   
