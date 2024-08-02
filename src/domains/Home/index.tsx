@@ -12,6 +12,7 @@ import { TableDataType } from "../../type/types";
 import CustomModal from "../../components/Modal";
 import FirstTab from "../../components/FirstTab";
 import SecondTab from "../../components/SecondTab";
+import moment from "moment-jalaali";
 
 type DataIndex = keyof TableDataType;
 
@@ -27,6 +28,18 @@ const Home: React.FC = () => {
     console.log("Form values:", values);
     setIsModalOpen(false)
   };
+
+  const changeDate = (value:string) =>{
+    const monthNum = moment(value, "jYYYY/jMM/jDD-HH:mm:ss").format("jDD");
+    const year = moment(value, "jYYYY/jMM/jDD-HH:mm:ss").format("jYYYY");
+    const time = moment(value, "jYYYY/jMM/jDD-HH:mm:ss").format("HH:mm");
+    const monthName = new Intl.DateTimeFormat("fa-IR", {
+      month: "short"
+    }).format(new Date(moment(value, "jYYYY/jMM/jDD-HH:mm:ss").format("YYYY/MM/DD")));
+    
+    return `${monthNum} ${monthName} ${year} ${time} `
+    
+  }
 
   const items = [
     {
@@ -131,6 +144,7 @@ const Home: React.FC = () => {
       title: `تاریخ پرداخت`,
       dataIndex: "paidAt",
       key: "paidAt",
+      render: (text: string) => changeDate(text),
     },
     {
       title: `مبلغ`,
