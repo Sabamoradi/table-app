@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import type { InputRef, TableColumnType } from "antd";
-import { Input, Table, Button, Space } from "antd";
+import { Input, Table, Button, Space, Tabs, Form } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { tableData } from "../../configs/data";
 import styles from "./style.module.scss";
@@ -10,6 +10,8 @@ import { localTexts } from "../../locals/text";
 import { moneySeparator } from "../../utils/addThousandSeparator";
 import { TableDataType } from "../../type/types";
 import CustomModal from "../../components/Modal";
+import FirstTab from "../../components/FirstTab";
+import SecondTab from "../../components/SecondTab";
 
 type DataIndex = keyof TableDataType;
 
@@ -18,6 +20,32 @@ const Home: React.FC = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [finishForm, setFinishForm] = useState(false);
+  const [form] = Form.useForm();
+
+  const handleFinish = (values?: any) => {
+    console.log("Form values:", values);
+    setIsModalOpen(false)
+  };
+
+  const items = [
+    {
+      id: "1",
+      text: localTexts.account,
+      content: (
+        <FirstTab
+          closeForm={() => setIsModalOpen(false)}
+          form={form}
+          handleFinish={handleFinish}
+        />
+      ),
+    },
+    {
+      id: "2",
+      text: localTexts.wallet,
+      content: <SecondTab />,
+    },
+  ];
 
   const handleSearch = (
     selectedKeys: string[],
@@ -36,10 +64,6 @@ const Home: React.FC = () => {
       default:
         return "Unknown";
     }
-  };
-
-  const openModal = () => {
-    setIsModalOpen(true);
   };
 
   const getColumnSearchProps = (
@@ -125,7 +149,7 @@ const Home: React.FC = () => {
       render: (_, record) => (
         <>
           <Space className="action-item" size="middle">
-            <a onClick={() => openModal()}>{localTexts.action}</a>
+            <a onClick={() => setIsModalOpen(true)}>{localTexts.action}</a>
           </Space>
         </>
       ),
@@ -145,6 +169,17 @@ const Home: React.FC = () => {
             {moneySeparator(15000)} <span>ریال</span>
           </p>
         </div>
+
+        <Tabs
+          defaultActiveKey="1"
+          items={items.map((el, i) => {
+            return {
+              label: <span>{el.text}</span>,
+              key: el.id,
+              children: el.content,
+            };
+          })}
+        />
       </CustomModal>
     </div>
   );

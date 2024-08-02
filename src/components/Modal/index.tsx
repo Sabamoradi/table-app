@@ -7,12 +7,12 @@ import { ReactNode } from "react";
 interface Props {
   isModalOpen: boolean;
   closeModal: () => void;
-  children:ReactNode
+
+  children: ReactNode;
 }
 
 const CustomModal = (props: Props) => {
-  const { isModalOpen,closeModal,children } = props;
-  
+  const { isModalOpen, closeModal, children } = props;
 
   return (
     <Modal
@@ -20,26 +20,9 @@ const CustomModal = (props: Props) => {
       open={isModalOpen}
       width={700}
       onCancel={closeModal}
-      footer={[
-        <Button
-          key="back"
-          className={styles.back_btn}
-          onClick={() => closeModal}
-        >
-          {localTexts.close}
-        </Button>,
-        <Button
-          key="submit"
-          className={styles.submit_btn}
-          onClick={() => closeModal}
-        >
-          {localTexts.finalProcess}
-        </Button>,
-      ]}
+      footer={null}
     >
-        {children}
-      
-      
+      {children}
     </Modal>
   );
 };

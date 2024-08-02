@@ -41,3 +41,18 @@ export let tableData = [
     cardNumber: "585983******8890",
   },
 ];
+
+export const destinationOfSettlement = [
+  {
+    value:'1',
+    title:'کیف پول اصلی'
+  },
+  {
+    value:'2',
+    title:'کیف پول اختیاری'
+  },
+  {
+    value:'3',
+    title:'کیف پول تسویه'
+  },
+]
