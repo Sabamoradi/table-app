@@ -1,3 +1,5 @@
-export function moneySeparator(val: number) {
-  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+export function moneySeparator(val: string) {
+  const parts = val.replace(/\D/g, '').split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return parts.join('.');
 }

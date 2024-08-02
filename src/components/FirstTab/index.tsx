@@ -2,6 +2,7 @@ import { Select, Form, Input, Button, FormInstance } from "antd";
 import { localTexts } from "../../locals/text";
 import TextArea from "antd/es/input/TextArea";
 import styles from "./style.module.scss";
+import { moneySeparator } from "../../utils/addThousandSeparator";
 
 interface Props {
   handleFinish: (values: any) => void;
@@ -12,13 +13,17 @@ interface Props {
 const FirstTab = (props: Props) => {
   const { handleFinish, form, closeForm } = props;
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    form.setFieldsValue({ destinationAmount: moneySeparator(value) });
+  };
+
   return (
     <>
       <Form
         form={form}
         name="settlement"
         layout="vertical"
-        autoComplete="off"
         onFinish={handleFinish}
       >
         <Form.Item
@@ -48,7 +53,10 @@ const FirstTab = (props: Props) => {
             { required: true, message: localTexts.fillAmountOfSettleMent },
           ]}
         >
-          <Input placeholder={localTexts.destinationAmount} />
+          <Input
+            placeholder={localTexts.destinationAmount}
+            onChange={handleChange}
+          />
         </Form.Item>
 
         <Form.Item label={localTexts.description} name="addDescription">

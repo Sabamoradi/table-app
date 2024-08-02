@@ -150,7 +150,7 @@ const Home: React.FC = () => {
       title: `مبلغ`,
       dataIndex: "amount",
       key: "amount",
-      render: (amount: number) => moneySeparator(amount),
+      render: (amount: string) => moneySeparator(amount),
     },
     {
       title: `شماره کارت`,
@@ -180,7 +180,7 @@ const Home: React.FC = () => {
         <div className={styles.top_section}>
           <h4>{localTexts.currentAmount}</h4>
           <p className={styles.amount}>
-            {moneySeparator(15000)} <span>ریال</span>
+            {moneySeparator("15000")} <span>ریال</span>
           </p>
         </div>
 

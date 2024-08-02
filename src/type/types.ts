@@ -1,5 +1,5 @@
 export interface TableDataType {
-    amount: number;
+    amount: string;
     trackId: number;
     status: number;
     paidAt: string;
