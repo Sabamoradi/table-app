@@ -1,5 +1,6 @@
 export let tableData = [
   {
+    key: "1",
     amount: 10000,
     trackId: 142513723,
     status: 1,
@@ -7,6 +8,7 @@ export let tableData = [
     cardNumber: "585983******8890",
   },
   {
+    key: "2",
     amount: 15000,
     trackId: 242513723,
     status: 1,
@@ -14,6 +16,7 @@ export let tableData = [
     cardNumber: "585983******8890",
   },
   {
+    key: "3",
     amount: 75000,
     trackId: 352513723,
     status: 1,
@@ -22,6 +25,7 @@ export let tableData = [
   },
 
   {
+    key: "4",
     amount: 65000,
     trackId: 442533723,
     status: 1,
@@ -29,6 +33,7 @@ export let tableData = [
     cardNumber: "585983******8890",
   },
   {
+    key: "5",
     amount: 35000,
     trackId: 542513523,
     status: 1,
@@ -38,5 +43,3 @@ export let tableData = [
 ];
 
 // import { tableData } from '../../configs/data';
-
-

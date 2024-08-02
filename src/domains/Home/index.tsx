@@ -1,54 +1,87 @@
+import React, { useRef, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
-import { useRef } from "react";
-import type { InputRef } from "antd";
-import { Input, Table, Tag, Space } from "antd";
-import type { ColumnType, ColumnsType } from "antd/es/table";
-import { Fragment } from "react";
-import { useNavigate } from "react-router-dom";
+import type { InputRef, TableColumnType } from "antd";
+import { Input, Table, Button, Space } from "antd";
+import type { ColumnsType } from "antd/es/table";
 import { tableData } from "../../configs/data";
 import styles from "./style.module.scss";
+import { FilterDropdownProps } from "antd/es/table/interface";
+import { localTexts } from "../../locals/text";
+import { moneySeparator } from "../../utils/addThousandSeparator";
+import { TableDataType } from "../../type/types";
 
-interface DataType {
-  amount: number;
-  trackId: number;
-  status: number;
-  paidAt: string;
-  cardNumber:string;
-}
+type DataIndex = keyof TableDataType;
 
-type DataIndex = keyof DataType;
-
-const Home = () => {
+const Home: React.FC = () => {
   const searchInput = useRef<InputRef>(null);
-  const navigate = useNavigate();
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
 
-  const getColumnSearchProps = (
-    dataIndex: DataIndex
-  ): ColumnType<DataType> => ({
-    filterDropdown: () => (
-      <div>
-        <Input ref={searchInput} placeholder={`Search ${dataIndex}`} />
+  const handleSearch = (
+    selectedKeys: string[],
+    confirm: FilterDropdownProps['confirm'],
+    dataIndex: DataIndex,
+  ) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const getStatusString = (status: number): string => {
+    switch (status) {
+      case 1:
+        return localTexts.successStatus;
+      default:
+        return 'Unknown';
+    }
+  };
+
+  const getColumnSearchProps = (dataIndex: DataIndex): TableColumnType<TableDataType> => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+      <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 90 }}
+          >
+            Search
+          </Button>
+        </Space>
       </div>
     ),
     filterIcon: (filtered: boolean) => (
-      <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
+      <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
     ),
+    onFilter: (value, record) =>
+      record[dataIndex]
+        .toString()
+        .toLowerCase()
+        .includes((value as string).toLowerCase()),
   });
 
-  const clickItem = (record: number) => {
-    navigate(`/detail/${record}`);
-  };
-  const columns: ColumnsType<DataType> = [
+  const columns: ColumnsType<TableDataType> = [
     {
       title: `شماره تراکنش`,
       dataIndex: "trackId",
       key: "trackId",
-      ...getColumnSearchProps("trackId"),
+      ...getColumnSearchProps('trackId'),
     },
     {
       title: `وضعیت تراکنش`,
       dataIndex: "status",
       key: "status",
+      render: (text: number) => getStatusString(text)
     },
     {
       title: `تاریخ پرداخت`,
@@ -59,13 +92,13 @@ const Home = () => {
       title: `مبلغ`,
       dataIndex: "amount",
       key: "amount",
+      render: (amount: number) => moneySeparator(amount),
     },
     {
       title: `شماره کارت`,
       dataIndex: "cardNumber",
       key: "cardNumber",
     },
-   
   ];
 
   return (
