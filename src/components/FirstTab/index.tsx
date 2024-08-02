@@ -66,15 +66,15 @@ const FirstTab = (props: Props) => {
             maxLength={6}
           />
         </Form.Item>
-        <div className="d-flex">
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button htmlType="submit" className={styles.submit_btn}>
-              {localTexts.finalProcess}
-            </Button>
-          </Form.Item>
-          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <div className="d-flex justify-end">
+          <Form.Item>
             <Button key="back" className={styles.back_btn} onClick={closeForm}>
               {localTexts.close}
+            </Button>
+          </Form.Item>
+          <Form.Item>
+            <Button htmlType="submit" className={styles.submit_btn}>
+              {localTexts.finalProcess}
             </Button>
           </Form.Item>
         </div>

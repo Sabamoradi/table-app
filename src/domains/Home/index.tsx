@@ -110,10 +110,9 @@ const Home: React.FC = () => {
             }
             icon={<SearchOutlined />}
             size="small"
-            style={{ width: 90 }}
-          >
-            Search
-          </Button>
+          />
+            
+          
         </Space>
       </div>
     ),

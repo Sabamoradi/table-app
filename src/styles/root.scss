@@ -35,7 +35,15 @@ ul {
 {
   font-family: IRANSansXFaNum !important;
 }
-
+.ant-pagination{
+  direction: ltr;
+}
+.d-flex{
+  display: flex;
+}
+.justify-end{
+  justify-content: flex-end;
+}
 .ant-table-wrapper{
   width: 100%;
 }
